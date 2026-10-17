@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beginora</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f6;--sf:#fff;--sf2:#f4f6fa;--ink:#14213d;--mut:#6b768c;--ln:#e0e5ee;--ac:#2b50e6;--acs:#e6ecff;--on:#fff;--warn:#e5484d;--ok:#12a36a;--sh:0 1px 2px rgba(20,33,61,.06),0 8px 24px -12px rgba(20,33,61,.12);--f:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e131f;--sf:#161d2c;--sf2:#1c2536;--ink:#e8ecf5;--mut:#92a0b8;--ln:#273146;--ac:#7f98ff;--acs:#222d4f;--on:#0e131f;--warn:#ff7a7f;--ok:#3ecf94;--sh:0 1px 2px rgba(0,0,0,.3)}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+nav{background:var(--sf);border-bottom:1px solid var(--ln)}
+.nv{max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.02em;margin-right:auto}
+.mark{width:30px;height:30px;border-radius:9px;background:var(--ac);color:var(--on);display:grid;place-items:center}
+.stat{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:13px;font-weight:600}
+.stat b{color:var(--ink);font-size:15px}
+.lvl{display:flex;align-items:center;gap:10px;background:var(--acs);padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px;color:var(--ac)}
+.lvl i{display:block;width:70px;height:5px;background:var(--sf);border-radius:5px;overflow:hidden}
+.lvl i u{display:block;height:100%;background:var(--ac);transition:width .4s}
+main{max-width:1120px;margin:0 auto;padding:24px 20px 60px;display:grid;gap:20px;grid-template-columns:1fr}
+@media(min-width:920px){main{grid-template-columns:1fr 372px;align-items:start}aside{position:sticky;top:20px}}
+.col{display:grid;gap:20px}
+.pn{background:var(--sf);border:1px solid var(--ln);border-radius:16px;box-shadow:var(--sh)}
+.pad{padding:22px}
+h1{font-size:26px;letter-spacing:-.03em;margin:0 0 4px;font-weight:800}
+h2{font-size:16px;margin:0;font-weight:700;letter-spacing:-.01em}
+.sub{color:var(--mut);font-size:14px;margin:0}
+.mh{display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 8px;font-weight:700}
+.mh span:last-child{font-size:28px;letter-spacing:-.03em;line-height:1}
+.track{height:12px;background:var(--sf2);border-radius:12px;overflow:hidden;border:1px solid var(--ln)}
+.track i{display:block;height:100%;background:var(--ac);border-radius:12px;transition:width .5s,background .3s}
+.track.low i{background:var(--warn)}
+.status{font-size:13px;color:var(--mut);margin-top:8px}
+.qt{display:flex;gap:14px;align-items:flex-start;margin-top:18px;padding-top:18px;border-top:1px solid var(--ln)}
+.qt p{margin:0;font-size:16px;font-weight:600;letter-spacing:-.01em;flex:1;max-width:60ch}
+.ib{width:36px;height:36px;border-radius:10px;border:1px solid var(--ln);background:var(--sf);cursor:pointer;display:grid;place-items:center;color:var(--mut);flex:none}
+.ib:hover{color:var(--ink);background:var(--sf2)}
+.th{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--ln)}
+.cnt{font-size:13px;color:var(--mut);font-weight:600}
+.addr{display:flex;gap:10px;padding:16px 22px;flex-wrap:wrap;border-bottom:1px solid var(--ln);background:var(--sf2)}
+input[type=text],input[type=number]{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;min-width:0}
+input::placeholder{color:var(--mut)}
+#title{flex:1 1 180px}
+.seg{display:inline-flex;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:3px}
+.seg button{border:0;background:none;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;color:var(--mut);cursor:pointer}
+.seg button.on{background:var(--ac);color:var(--on)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ln);background:var(--sf);border-radius:10px;padding:10px 16px;font-weight:700;font-size:14px;cursor:pointer}
+.btn:hover{background:var(--sf2)}
+.btn.p{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.btn.p:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(1px)}
+.row{display:flex;align-items:center;gap:12px;padding:13px 22px;border-bottom:1px solid var(--ln)}
+.row:last-child{border-bottom:0}
+.row.sel{background:var(--acs)}
+.row .n{flex:1;word-break:break-word;font-weight:500}
+.row.done .n{color:var(--mut);text-decoration:line-through}
+.cb{width:22px;height:22px;border-radius:50%;border:2px solid var(--mut);background:none;cursor:pointer;display:grid;place-items:center;color:transparent;padding:0;flex:none}
+.cb svg{width:13px;height:13px;stroke-width:3}
+.row.done .cb{background:var(--ok);border-color:var(--ok);color:#fff}
+.chip{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--sf2);color:var(--mut);border:1px solid var(--ln)}
+.chip.h{color:var(--warn)}
+.ac{display:flex;gap:2px}
+.ac button{background:none;border:0;color:var(--mut);cursor:pointer;padding:6px;border-radius:8px;display:grid}
+.ac button:hover{background:var(--sf2);color:var(--ink)}
+.empty{padding:36px 22px;text-align:center;color:var(--mut)}
+.empty b{display:block;color:var(--ink);margin-bottom:2px}
+.bg{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.bd{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px dashed var(--ln);color:var(--mut)}
+.bd.on{border:1px solid var(--ac);background:var(--acs);color:var(--ac)}
+.tabs{display:flex;background:var(--sf2);border-radius:12px;padding:4px;margin-bottom:22px}
+.tabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font-weight:700;font-size:14px;color:var(--mut);cursor:pointer}
+.tabs button.on{background:var(--sf);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.ring{position:relative;width:min(250px,72vw);aspect-ratio:1;margin:0 auto 18px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6}
+.ring .b{stroke:var(--sf2)}.ring .f{stroke:var(--ac);stroke-linecap:round;transition:stroke-dashoffset .25s linear}
+.clk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#ct{font-size:clamp(40px,12vw,54px);font-weight:800;letter-spacing:-.04em;line-height:1}
+#ft{font-size:13px;color:var(--mut);max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.pre{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.pre button{border:1px solid var(--ln);background:var(--sf);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer}
+.pre button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cu{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:20px;color:var(--mut);font-size:13px;font-weight:600}
+.cu input{width:70px;text-align:center}
+.ctl{display:flex;gap:8px}.ctl .btn{flex:1}.ctl .p{flex:2}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:90vw;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:15}
+#fx b{position:absolute;top:-20px;width:8px;height:12px;border-radius:2px;animation:f 1.8s ease-in forwards}
+@keyframes f{to{transform:translateY(110vh) rotate(540deg)}}
+.lk{background:none;border:0;color:var(--mut);font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0;margin-top:14px}
+.qa{font-size:13px;color:var(--mut);margin-top:4px;font-weight:500}
+input[type=datetime-local]{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:9px 10px;min-width:0;color-scheme:light dark}
+.chip.late{background:var(--warn);color:#fff;border-color:var(--warn)}
+.chip.due{color:var(--ac)}
+.note{flex-basis:100%;font-size:12px;color:var(--mut)}
+.row{flex-wrap:wrap}.row .n{flex:1 1 140px}
+.chal{margin-top:12px;padding:12px 14px;border:1px solid var(--ln);border-radius:12px;background:var(--sf2);display:flex;gap:10px;align-items:center;flex-wrap:wrap}.chal[hidden]{display:none}.chal span{flex:1 1 220px;font-weight:600}.chal .btn{padding:8px 14px}
+main{max-width:760px;display:block;padding:24px 20px 60px}
+.view{display:grid;gap:18px}.view[hidden]{display:none}
+.nm{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--mut)}
+.nm i{display:block;width:90px;height:6px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);overflow:hidden}
+.nm u{display:block;height:100%;background:var(--ac);transition:width .5s}.nm i.low u{background:var(--warn)}.nm b{color:var(--ink)}
+.tabbar{background:var(--sf);border-bottom:1px solid var(--ln)}
+.tabbar .in{max-width:760px;margin:0 auto;padding:0 20px;display:flex;gap:4px}
+.tabbar button{display:flex;align-items:center;gap:8px;border:0;background:none;padding:14px 16px;font-weight:700;font-size:14px;color:var(--mut);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabbar button.on{color:var(--ac);border-bottom-color:var(--ac)}
+.fc{max-width:440px;margin:0 auto;width:100%}
+.lrow{display:flex;justify-content:space-between;margin:14px 0 8px;font-weight:700}
+#xt{color:var(--mut);font-size:13px;font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+@media(min-width:560px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{padding:14px;border:1px solid var(--ln);border-radius:12px;background:var(--sf2)}
+.tile b{display:block;font-size:26px;letter-spacing:-.03em;line-height:1.1}.tile span{font-size:12px;color:var(--mut);font-weight:600}
+.bq .qt{margin-top:14px;padding-top:0;border-top:0}
+@media(max-width:700px){
+.nm span{display:none}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:10;border-top:1px solid var(--ln);border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar .in{padding:0}
+.tabbar button{flex:1;flex-direction:column;gap:3px;font-size:11px;padding:9px 4px;border-bottom:0;margin:0}
+main{padding-bottom:96px}
+#toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}}
+.ab{margin:8px 0 0;line-height:1.65}ul.ab{padding-left:20px}ul.ab li{margin:8px 0}
+.soc{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}a.btn{text-decoration:none;color:var(--ink)}a.btn.p{color:var(--on)}
+.ver{color:var(--mut);font-size:13px;text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="tg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></symbol>
+<symbol id="fl" viewBox="0 0 24 24"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/></symbol>
+<symbol id="rf" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2 5.5M20 5v6h-6"/></symbol>
+<symbol id="pl" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
+<symbol id="ps" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16"/></symbol>
+<symbol id="i-rs" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></symbol>
+<symbol id="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="bt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-sv" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ls" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+<symbol id="tm" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></symbol>
+<symbol id="ch" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></symbol>
+<symbol id="sp" viewBox="0 0 24 24"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></symbol>
+<symbol id="inf" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+</defs></svg>
+
+<nav><div class="nv">
+<div class="brand"><span class="mark"><svg class="i"><use href="#bt"/></svg></span>Beginora</div>
+<div class="nm"><span>Motivation</span><i id="nmt"><u id="nmb"></u></i><b id="nm">60%</b></div>
+<div class="lvl">Level&nbsp;<span id="sl">1</span></div>
+</div></nav>
+<div class="tabbar"><div class="in" id="tabs">
+<button id="n-tasks" data-v="tasks"><svg class="i"><use href="#ls"/></svg>Tasks</button>
+<button id="n-focus" data-v="focus"><svg class="i"><use href="#tm"/></svg>Focus</button>
+<button id="n-stats" data-v="stats"><svg class="i"><use href="#ch"/></svg>Stats</button>
+<button id="n-boost" data-v="boost"><svg class="i"><use href="#sp"/></svg>Boost</button>
+<button id="n-about" data-v="about"><svg class="i"><use href="#inf"/></svg>About</button>
+</div></div>
+<main>
+<div class="view" id="v-tasks">
+<div><h1 id="hi">Welcome back</h1><p class="sub">Add tasks, set deadlines and finish them to keep your motivation up.</p></div>
+<section class="pn" style="overflow:hidden">
+<div class="th"><h2>Your tasks</h2><span class="cnt" id="cnt"></span></div>
+<div class="addr">
+<input type="text" id="title" placeholder="Add a task, e.g. Finish physics chapter 3" maxlength="80" aria-label="Task name">
+<div class="seg" id="dif"><button data-v="1">Easy</button><button data-v="2" class="on">Medium</button><button data-v="3">Hard</button></div>
+<input type="datetime-local" id="due" aria-label="Deadline (optional)"><button class="btn p" id="addb">Add task</button><div class="note">Optional deadline. Missing it, or cancelling a task you committed to, costs motivation based on its difficulty.</div>
+</div>
+<div id="list"></div>
+</section>
+</div>
+
+<div class="view" id="v-focus" hidden>
+<div><h1>Focus</h1><p class="sub">Study without distractions. Your motivation doesn't drain while a session runs, even if you switch apps.</p></div>
+<section class="pn pad fc">
+<div class="tabs"><button id="tt" class="on">Timer</button><button id="ts">Stopwatch</button></div>
+<div class="ring"><svg viewBox="0 0 100 100"><circle class="b" cx="50" cy="50" r="46"/><circle class="f" id="arc" cx="50" cy="50" r="46" stroke-dasharray="289.03" stroke-dashoffset="0"/></svg>
+<div class="clk"><span id="ct">25:00</span><span id="ft">No task selected</span></div></div>
+<div id="tset">
+<div class="pre" id="chips"></div>
+<div class="cu"><input type="number" id="cm" min="0" max="999" value="25" aria-label="Minutes">min<input type="number" id="cs" min="0" max="59" value="0" aria-label="Seconds">sec</div>
+</div>
+<div class="ctl"><button class="btn p" id="go"></button><button class="btn" id="rs"><svg class="i"><use href="#i-rs"/></svg>Reset</button></div>
+<button class="btn" id="sv" style="display:none;width:100%;margin-top:8px"><svg class="i"><use href="#i-sv"/></svg>Save session for XP</button>
+</section>
+</div>
+
+<div class="view" id="v-stats" hidden>
+<div><h1>Stats</h1><p class="sub">See how your motivation, level and habits are doing.</p></div>
+<section class="pn pad"><h2>Motivation</h2>
+<div class="mh"><span>Current level</span><span id="mp">60%</span></div>
+<div class="track" id="tr"><i id="mb"></i></div>
+<div class="status" id="mst"></div></section>
+<section class="pn pad"><h2>Progress</h2>
+<div class="lrow"><b>Level <span id="sl2">1</span></b><span id="xt"></span></div>
+<div class="track"><i id="xb"></i></div>
+<div class="tiles">
+<div class="tile"><b id="ss">0</b><span>Day streak</span></div>
+<div class="tile"><b id="sd">0</b><span>Tasks done</span></div>
+<div class="tile"><b id="sf">0</b><span>Focus sessions</span></div>
+<div class="tile"><b id="sl3">1</b><span>Level</span></div>
+</div></section>
+<section class="pn pad"><h2>Badges</h2><div class="bg" id="badges"></div></section>
+<div><button class="lk" id="reset" style="margin:0">Reset all data</button></div>
+</div>
+
+<div class="view" id="v-boost" hidden>
+<div><h1>Boost</h1><p class="sub">Feeling stuck or tired? Read something that helps, or do one small task.</p></div>
+<section class="pn pad bq"><h2>Quote</h2>
+<div class="qt"><div style="flex:1"><p id="q"></p><div class="qa" id="qa"></div></div><button class="ib" id="nq" title="New quote" aria-label="New quote"><svg class="i"><use href="#rf"/></svg></button></div></section>
+<section class="pn pad"><h2>1-minute challenge</h2>
+<p class="sub" style="margin:6px 0 14px">A small, real study task. Finish it for +1% or +2% motivation.</p>
+<button class="btn p" id="boost">Give me a challenge</button>
+<div class="chal" id="chal" hidden><span id="ctxt"></span><button class="btn p" id="cdone">Done</button><button class="btn" id="cskip">Skip</button></div></section>
+</div>
+<div class="view" id="v-about" hidden>
+<div><h1>About Beginora</h1><p class="sub">Begin today. Not tomorrow.</p></div>
+<section class="pn pad"><h2>Why this app exists</h2>
+<p class="ab">Most of us know what we need to do. The hard part is starting. "I'll do it tomorrow" feels harmless, until tomorrow becomes next week. Beginora helps close the gap between wanting to work and actually working.</p></section>
+<section class="pn pad"><h2>How it helps</h2>
+<ul class="ab">
+<li><b>Tasks with deadlines.</b> Add what you need to do and when it's due. Missing a deadline or giving up on a task costs motivation, based on how hard the task was.</li>
+<li><b>A motivation bar.</b> It drops when you delay and rises when you finish, so you can see your progress.</li>
+<li><b>Focus timer and stopwatch.</b> Study with a session running and your motivation won't drain, even if you switch to a lecture or another app.</li>
+<li><b>XP, levels and streaks.</b> Every finished task and focus session earns progress, so consistency feels rewarding.</li>
+<li><b>Quotes and 1-minute challenges.</b> A small boost when you're stuck, and a small real task to get you moving.</li>
+<li><b>Deadline reminders.</b> Notifications reach you before and at the deadline.</li>
+</ul></section>
+<section class="pn pad"><h2>About the creator</h2>
+<p class="ab">Hi, I'm Pankaj Mahato, a Class 12 student and an aspiring software and game developer. I built Beginora because I saw how often students, including me, delay important work. This app is my first step toward building products that solve real problems, and I'll keep improving it with feedback from the people who use it.</p></section>
+<section class="pn pad"><h2>Feedback and updates</h2>
+<p class="ab">Have an idea or found a bug? I'd love to hear from you. Email us at flixoralabs@gmail.com or message us on social media.</p>
+<div class="soc"><a class="btn p" href="mailto:flixoralabs@gmail.com">Email flixoralabs@gmail.com</a><a class="btn" href="https://www.instagram.com/flix0ra" target="_blank" rel="noopener noreferrer">Instagram @flix0ra</a><a class="btn" href="https://x.com/Theflixora" target="_blank" rel="noopener noreferrer">X @Theflixora</a></div></section>
+<div class="ver">Version 1.0</div>
+</div>
+</main>
+<div id="toast"></div><div id="fx"></div>
+
+<script>
+var S={tasks:[],xp:0,m:60,streak:0,last:"",done:0,ts:Date.now(),focus:0,id:1},sel=null,dif=2,tt;
+var $=function(i){return document.getElementById(i)};
+function ic(n){return'<svg class="i"><use href="#'+n+'"/></svg>'}
+try{var r=localStorage.getItem("taskquest");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+var wasRun=false;try{var T0=JSON.parse(localStorage.getItem("tq_timer")||"null");wasRun=!!(T0&&T0.run)}catch(e){}
+if(!wasRun)S.m=Math.max(0,S.m-Math.min(40,(Date.now()-S.ts)/60000*0.3));
+function save(){S.ts=Date.now();try{localStorage.setItem("taskquest",JSON.stringify(S))}catch(e){}}
+function lvl(){return Math.floor(S.xp/100)+1}
+function say(s){var t=$("toast");t.textContent=s;t.className="on";clearTimeout(tt);tt=setTimeout(function(){t.className=""},2600)}
+var Q=["You don't have to feel ready. You just have to start.","Ten focused minutes beat two hours of 'I'll do it later'.","Small steps still move you forward.","Future you is watching. Make them proud.","Done is better than perfect.","Your only competition is who you were yesterday.","Discipline is choosing what you want most over what you want now.","The hardest part is opening the book. You've already opened this app.","Tired? Rest, don't quit. Then come back.","One task. One timer. Nothing else.","Motivation follows action, not the other way around.","Every expert was once a beginner who kept showing up.","You've survived 100% of your bad days so far.","Progress, not perfection.","The best time to start was yesterday. The next best is now.","Boring work done consistently beats brilliant work done rarely.","Your goals don't care about your mood. Do it anyway.","Close the tabs. Silence the phone. Begin.","Hard now, easy later. Easy now, hard later.","It always seems impossible until it's done.","A little every day adds up to a lot.","Break it into pieces. Pick the smallest. Go.","You are one focused hour away from feeling much better.","Messy first drafts are allowed.","Don't count the days. Make the days count.","Action cures anxiety.","Win the next 25 minutes.","Consistency is quiet but it always wins.","Start before you're comfortable.","Your future is built by what you do today, not tomorrow."];
+var CH=["Write 3 key points you remember from your last lecture.","Open your notes and rewrite one confusing line in simple words.","Solve one practice question without looking at the answer.","List the 3 topics most likely to come in your next exam.","Write one question you still want to ask your teacher.","Explain the last concept you studied in two sentences, out loud.","Make one flashcard for something you keep forgetting.","Write tomorrow's top 3 tasks on paper.","Skim your last page of notes and underline the 3 most important words.","Rate your confidence from 1 to 5 on the topic you are studying now."];
+var P=[],seen={},lastQ="";
+try{P=JSON.parse(localStorage.getItem("tq_pool")||"[]");seen=JSON.parse(localStorage.getItem("tq_seen")||"{}")}catch(e){}
+function qsave(){try{localStorage.setItem("tq_pool",JSON.stringify(P));localStorage.setItem("tq_seen",JSON.stringify(seen))}catch(e){}}
+function refill(){if(typeof fetch!=="function"||navigator.onLine===false)return;
+try{fetch("https://dummyjson.com/quotes?limit=30&skip="+Math.floor(Math.random()*1400)).then(function(r){return r.json()}).then(function(d){(d.quotes||[]).forEach(function(x){if(!seen[x.id]&&!P.some(function(p){return p.id==x.id}))P.push({id:x.id,t:x.quote,a:x.author})});P=P.slice(-150);qsave()}).catch(function(){})}catch(e){}}
+function newQ(){var q=null;if(P.length&&Math.random()>.1){q=P.shift();seen[q.id]=1;qsave()}
+if(!q){var t;do{t=Q[Math.floor(Math.random()*Q.length)]}while(t===lastQ&&Q.length>1);q={t:t,a:""}}
+lastQ=q.t;$("q").textContent=q.t;$("qa").textContent=q.a?"\u2013 "+q.a:"";if(P.length<10)refill()}
+function base(f){return[0,6,12,20][f]}
+function check(){var now=Date.now(),tot=0,names=[];
+S.tasks.forEach(function(t){if(t.d||!t.due||now<=t.due)return;
+var st=Math.min(2,Math.floor((now-t.due)/864e5)),owed=base(t.f)*(1+st*.5),diff=owed-(t.paid||0);
+if(diff>0){tot+=diff;if(!t.paid)names.push(t.n);t.paid=owed}});
+if(tot>0){S.m=Math.max(0,S.m-tot);say("Missed deadline"+(names.length?": "+names[0]+(names.length>1?" +"+(names.length-1)+" more":""):" escalated")+". -"+Math.round(tot)+"% motivation.")}}
+function dueChip(t){if(t.d||!t.due)return"";var late=Date.now()>t.due;
+return'<span class="chip '+(late?"late":"due")+'">'+(late?"Overdue: ":"Due ")+new Date(t.due).toLocaleString([],{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})+'</span>'}
+var BAD=[["First task",function(){return S.done>=1}],["5 tasks",function(){return S.done>=5}],["20 tasks",function(){return S.done>=20}],["3-day streak",function(){return S.streak>=3}],["3 focus sessions",function(){return S.focus>=3}],["Level 5",function(){return lvl()>=5}]];
+function burst(){var f=$("fx"),c=["#2b50e6","#12a36a","#f2a33a","#e5484d","#7f98ff"];for(var i=0;i<36;i++){var b=document.createElement("b");b.style.left=Math.random()*100+"%";b.style.background=c[i%5];b.style.animationDelay=Math.random()*.4+"s";f.appendChild(b);(function(x){setTimeout(function(){x.remove()},2400)})(b)}}
+function gain(x,m){var l=lvl();S.xp+=x;S.m=Math.min(100,S.m+m);if(lvl()>l){burst();say("Level up! You are now level "+lvl()+".")}}
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function today(){return new Date().toISOString().slice(0,10)}
+function greet(){var h=new Date().getHours();return h<5?"Working late":h<12?"Good morning":h<17?"Good afternoon":"Good evening"}
+function render(){
+var m=Math.round(S.m);$("hi").textContent=greet();
+$("mp").textContent=m+"%";$("nm").textContent=m+"%";$("nmb").style.width=m+"%";$("nmt").className=m<25?"low":"";$("mb").style.width=m+"%";$("tr").className="track"+(m<25?" low":"");
+$("mst").textContent=run?"Focus session running. Your motivation is protected and won't drain.":m<25?"Running low. Finish one small task to recharge.":m<60?"Steady. A focus session will push you higher.":m<85?"Good momentum. Keep going.":"Peak focus. Pick your hardest task now.";
+$("xb").style.width=(S.xp%100)+"%";$("xt").textContent=(S.xp%100)+"/100 XP";$("sl").textContent=lvl();$("sl2").textContent=lvl();$("sl3").textContent=lvl();
+$("ss").textContent=S.streak;$("sd").textContent=S.done;$("sf").textContent=S.focus;
+var open=S.tasks.filter(function(t){return!t.d}).length;
+$("cnt").textContent=S.tasks.length?(S.tasks.length-open)+" of "+S.tasks.length+" done":"";
+var l="";S.tasks.forEach(function(t){
+l+='<div class="row'+(t.d?" done":"")+(t.id==sel&&!t.d?" sel":"")+'"><button class="cb" onclick="fin('+t.id+')" aria-label="'+(t.d?"Mark as not done":"Mark as done")+'">'+ic("ck")+'</button><span class="n">'+esc(t.n)+'</span>'+dueChip(t)+'<span class="chip'+(t.f==3?" h":"")+'">'+["","Easy","Medium","Hard"][t.f]+' +'+[0,10,25,50][t.f]+'</span><span class="ac">'+(t.d?"":'<button title="Focus on this task" aria-label="Focus on this task" onclick="pick('+t.id+')">'+ic("tg")+'</button>')+'<button title="Delete task" aria-label="Delete task" onclick="del('+t.id+')">'+ic("x")+'</button></span></div>'});
+$("list").innerHTML=l||'<div class="empty"><b>No tasks yet</b>Add your first task above to get started.</div>';
+var b="";BAD.forEach(function(x){b+='<span class="bd'+(x[1]()?" on":"")+'">'+(x[1]()?ic("ck"):"")+x[0]+'</span>'});$("badges").innerHTML=b;
+var t=S.tasks.filter(function(x){return x.id==sel&&!x.d})[0];
+$("ft").textContent=t?t.n:"No task selected";
+nsync();save()}
+function add(){var v=$("title").value.trim();if(!v){say("Type a task name first.");return}var dv=$("due").value,du=dv?new Date(dv).getTime():0;if(dv&&du<Date.now()){say("Pick a deadline in the future.");return}
+S.tasks.unshift({id:S.id++,n:v,f:dif,d:0,due:du,add:Date.now(),paid:0});$("title").value="";$("due").value="";
+say(du?"Added. Missing this deadline costs "+base(dif)+"% motivation.":"Task added.");render()}
+var VIEWS=["tasks","focus","stats","boost","about"];
+function show(v){if(VIEWS.indexOf(v)<0)v="tasks";VIEWS.forEach(function(k){$("v-"+k).hidden=k!==v;$("n-"+k).className=k===v?"on":"";$("n-"+k).setAttribute("aria-current",k===v?"page":"false")});try{localStorage.setItem("tq_view",v)}catch(e){}window.scrollTo(0,0)}
+function pick(i){sel=i;render();show("focus");say("Focus task selected. Press Start.")}
+function del(i){var t=S.tasks.filter(function(x){return x.id==i})[0];
+if(t&&!t.d&&!t.paid&&Date.now()-(t.add||0)>3e5){var c=Math.round(base(t.f)/2);S.m=Math.max(0,S.m-c);say("Task cancelled. -"+c+"% motivation.")}
+S.tasks=S.tasks.filter(function(x){return x.id!=i});if(sel==i)sel=null;render()}
+function fin(i){var t=S.tasks.filter(function(x){return x.id==i})[0];if(!t)return;
+if(t.d){t.d=0;S.done=Math.max(0,S.done-1);render();return}
+var late=t.due&&Date.now()>t.due;t.d=1;S.done++;var k=late?.5:1,xp=Math.round([0,10,25,50][t.f]*k);gain(xp,Math.round([0,8,15,25][t.f]*k));
+var d=today();if(S.last!==d){var y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.streak=S.last===y?S.streak+1:1;S.last=d}
+burst();newQ();say((late?"Done, but late. ":"Task done. ")+"+"+xp+" XP");render()}
+/* native Android notifications (Capacitor LocalNotifications) */
+var LN=null,nsig="";
+try{var CP=window.Capacitor;if(CP&&CP.isNativePlatform&&CP.isNativePlatform()&&CP.Plugins)LN=CP.Plugins.LocalNotifications||null}catch(e){}
+if(LN){try{LN.requestPermissions().catch(function(){});LN.createChannel({id:"deadlines",name:"Task deadlines",importance:5,visibility:1,vibration:true}).catch(function(){});LN.addListener("localNotificationActionPerformed",function(){check();render()})}catch(e){}}
+function nsync(){if(!LN)return;var now=Date.now(),list=[],sig="";
+S.tasks.forEach(function(t){if(t.d||!t.due)return;sig+=t.id+":"+t.due+":"+t.f+";";var b=base(t.f);
+if(t.due-18e5>now)list.push({id:t.id*10+1,title:"Due in 30 minutes",body:t.n+". Finish it to protect your motivation.",at:t.due-18e5});
+if(t.due>now)list.push({id:t.id*10+2,title:"Deadline reached",body:t.n+": finish it now or lose "+b+"% motivation.",at:t.due});
+if(t.due+864e5>now)list.push({id:t.id*10+3,title:"Still not done",body:t.n+" is a day overdue. The penalty just increased.",at:t.due+864e5})});
+if(sig===nsig)return;nsig=sig;
+LN.getPending().then(function(r){var p=((r&&r.notifications)||[]).filter(function(n){return n.id!==999999});return p.length?LN.cancel({notifications:p.map(function(n){return{id:n.id}})}):0}).then(function(){if(list.length)return LN.schedule({notifications:list.map(function(n){return{id:n.id,title:n.title,body:n.body,channelId:"deadlines",schedule:{at:new Date(n.at),allowWhileIdle:true}}})})}).catch(function(){})}
+/* timer + stopwatch */
+var C=289.03,mode="timer",total=1500,rem=1500000,run=false,endTs=0,acc=0,startTs=0,iv=null,PRE=[5,10,15,25,45,60];
+function pad(n){return("0"+n).slice(-2)}
+function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60);return(h?h+":"+pad(m):pad(m))+":"+pad(s%60)}
+function setDur(sec){if(sec<1)sec=1;stopRun();total=sec;rem=sec*1000;$("cm").value=Math.floor(sec/60);$("cs").value=sec%60;chips();draw()}
+function chips(){var h="";PRE.forEach(function(m){h+='<button class="'+(total===m*60?"on":"")+'" onclick="setDur('+m*60+')">'+m+' min</button>'});$("chips").innerHTML=h}
+function stopRun(){run=false;clearInterval(iv);iv=null;document.title="Beginora";tnote(false)}
+function elapsed(){return acc+(run?Date.now()-startTs:0)}
+function draw(){
+var txt,off;
+if(mode==="timer"){if(run)rem=Math.max(0,endTs-Date.now());txt=fmt(rem);off=C*(1-rem/(total*1000))}
+else{var e=elapsed();txt=fmt(e);off=C*(1-(e%60000)/60000)}
+$("ct").textContent=txt;$("arc").style.strokeDashoffset=off;
+var started=mode==="timer"?rem<total*1000:acc>0;
+$("go").innerHTML=run?ic("ps")+"Pause":ic("pl")+(started?"Resume":"Start");
+if(run)document.title=txt+" · Beginora";tsave()}
+function finishTimer(away){stopRun();S.focus++;var m=Math.max(1,Math.round(total/60*0.8));gain(m,12);burst();newQ();say((away?"Your timer finished while you were away. ":"Session complete. ")+"+"+m+" XP");rem=total*1000;draw();render()}
+function tick(){draw();if(mode==="timer"&&run&&rem<=0)finishTimer(false)}
+var lastT="";
+function tsave(){var s=JSON.stringify({mode:mode,total:total,run:run,endTs:run?endTs:0,acc:acc,startTs:run?startTs:0,rem:run?0:rem,sel:sel});if(s===lastT)return;lastT=s;try{localStorage.setItem("tq_timer",s)}catch(e){}}
+function tnote(on){if(typeof LN==="undefined"||!LN)return;LN.cancel({notifications:[{id:999999}]}).catch(function(){}).then(function(){if(on&&mode==="timer"&&run&&endTs>Date.now())return LN.schedule({notifications:[{id:999999,title:"Focus session complete",body:"Time is up. Open Beginora to collect your XP.",channelId:"deadlines",schedule:{at:new Date(endTs),allowWhileIdle:true}}]})}).catch(function(){})}
+function restore(){var T=null;try{T=JSON.parse(localStorage.getItem("tq_timer")||"null")}catch(e){}
+if(!T)return;mode=T.mode==="stopwatch"?"stopwatch":"timer";total=T.total||1500;acc=T.acc||0;sel=T.sel||null;
+$("tt").className=mode==="timer"?"on":"";$("ts").className=mode==="stopwatch"?"on":"";$("tset").style.display=mode==="timer"?"block":"none";$("sv").style.display=mode==="stopwatch"?"inline-flex":"none";
+$("cm").value=Math.floor(total/60);$("cs").value=total%60;
+if(mode==="timer"){rem=T.run?Math.max(0,T.endTs-Date.now()):(T.rem||total*1000);
+if(T.run){if(rem>0){endTs=T.endTs;run=true;iv=setInterval(tick,250)}else finishTimer(true)}}
+else if(T.run){startTs=T.startTs;run=true;iv=setInterval(tick,250)}}
+function go(){
+if(run){if(mode==="timer")rem=endTs-Date.now();else acc+=Date.now()-startTs;run=false;clearInterval(iv);iv=null;tnote(false);draw();render();say("Paused.");return}
+if(mode==="timer"){if(rem<=0)rem=total*1000;endTs=Date.now()+rem}else startTs=Date.now();
+run=true;iv=setInterval(tick,250);tick();tnote(true);render()}
+function rst(){stopRun();rem=total*1000;acc=0;draw();render();say("Reset.")}
+function setMode(m){stopRun();mode=m;acc=0;rem=total*1000;$("tt").className=m==="timer"?"on":"";$("ts").className=m==="stopwatch"?"on":"";$("tset").style.display=m==="timer"?"block":"none";$("sv").style.display=m==="stopwatch"?"inline-flex":"none";draw()}
+function saveSw(){var mn=Math.floor(elapsed()/60000);if(mn<1){say("Work for at least 1 minute to save.");return}
+stopRun();var x=Math.max(1,Math.round(mn*.8));S.focus++;gain(x,10);acc=0;burst();newQ();say("Saved "+mn+" min. +"+x+" XP");draw();render()}
+function custom(){setDur((+$("cm").value||0)*60+(+$("cs").value||0))}
+$("go").onclick=go;$("rs").onclick=rst;$("sv").onclick=saveSw;
+$("tt").onclick=function(){setMode("timer")};$("ts").onclick=function(){setMode("stopwatch")};
+$("cm").onchange=custom;$("cs").onchange=custom;
+$("addb").onclick=add;$("title").onkeydown=function(e){if(e.key==="Enter")add()};
+$("dif").onclick=function(e){var v=e.target.getAttribute("data-v");if(!v)return;dif=+v;[].forEach.call($("dif").children,function(b){b.className=b.getAttribute("data-v")==v?"on":""})};
+$("nq").onclick=newQ;
+var cur=null;
+$("boost").onclick=function(){if(cur){say("Finish or skip your current challenge first.");return}cur={t:CH[Math.floor(Math.random()*CH.length)],g:1+Math.floor(Math.random()*2),s:Date.now()};$("ctxt").textContent=cur.t+" (+"+cur.g+"% motivation)";$("chal").hidden=false};
+$("cdone").onclick=function(){if(!cur)return;if(Date.now()-cur.s<30000){say("Give it a real try first. Take at least 30 seconds.");return}S.m=Math.min(100,S.m+cur.g);say("Challenge done. +"+cur.g+"% motivation.");cur=null;$("chal").hidden=true;render()};
+$("cskip").onclick=function(){cur=null;$("chal").hidden=true};
+$("reset").onclick=function(){if(confirm("Delete all tasks and progress?")){try{localStorage.removeItem("taskquest")}catch(e){}location.reload()}};
+setInterval(function(){if(!run)S.m=Math.max(0,S.m-0.05);check();render()},10000);
+restore();newQ();chips();draw();check();render();
+$("tabs").onclick=function(e){var b=e.target.closest("button");if(b)show(b.getAttribute("data-v"))};
+var v0="tasks";try{v0=localStorage.getItem("tq_view")||"tasks"}catch(e){}show(v0);
+document.addEventListener("visibilitychange",function(){if(!document.hidden){tick();check();render()}});
+</script>
+</body>
+</html>
