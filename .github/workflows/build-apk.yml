@@ -1,8 +1,10 @@
-name: Build Android APK
+name: Build and Release
 on:
   push:
     branches: [main, master]
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,24 +17,45 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Load signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.KS_PASS }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ] || [ -z "$KS_PASS" ]; then echo "Add the KEYSTORE_B64 and KS_PASS secrets first (Settings > Secrets and variables > Actions)."; exit 1; fi
+          echo "$KEYSTORE_B64" | base64 -d > beginora.keystore
+      - name: Stamp build number
+        run: sed -i "s/__BUILD__/${{ github.run_number }}/" www/index.html
       - name: Install dependencies
         run: npm install
       - name: Create Android project
         run: npx cap add android
-      - name: Add notification permissions
+      - name: Permissions and version
         run: |
           M=android/app/src/main/AndroidManifest.xml
           sed -i 's#</manifest>#    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />\n    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />\n</manifest>#' $M
-          grep -n "uses-permission" $M
+          G=android/app/build.gradle
+          sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" $G
+          grep -n "versionCode\|versionName" $G
       - name: Generate app icons
         continue-on-error: true
         run: npx capacitor-assets generate --android
       - name: Sync web app into Android project
         run: npx cap sync android
-      - name: Build debug APK
+      - name: Build release APK
         working-directory: android
-        run: ./gradlew assembleDebug
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Beginora-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+        run: ./gradlew assembleRelease
+      - name: Sign APK
+        env:
+          KS_PASS: ${{ secrets.KS_PASS }}
+        run: |
+          BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
+          UN=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
+          $BT/zipalign -p -f 4 "$UN" aligned.apk
+          $BT/apksigner sign --ks beginora.keystore --ks-key-alias beginora --ks-pass env:KS_PASS --key-pass env:KS_PASS --out Beginora.apk aligned.apk
+          $BT/apksigner verify Beginora.apk
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "build-${{ github.run_number }}" Beginora.apk --title "Beginora build ${{ github.run_number }}" --notes "Install over your existing app. Your tasks and progress are kept." --latest
